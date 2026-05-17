@@ -166,7 +166,11 @@ export async function cleanDatabase() {
         log(`Executing: ${cmd}`);
         try {
           // Redirect stderr to stdout so we catch error details
-          const out = execSync(cmd + " 2>&1", { cwd: projectRoot, encoding: 'utf8' });
+          const out = execSync(cmd + " 2>&1", { 
+            cwd: projectRoot, 
+            encoding: 'utf8',
+            env: { ...process.env, GIT_TERMINAL_PROMPT: "0" }
+          });
           log(`Success Output:\n${out}\n`);
           return out;
         } catch (e) {
