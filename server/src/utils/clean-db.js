@@ -153,10 +153,26 @@ export async function cleanDatabase() {
     try {
       console.log('--- GIT UPLOAD: Starting upload to GitHub ---');
       const projectRoot = "C:\\Users\\bytef\\OneDrive\\Desktop\\Food Ordering System";
+      const logFile = path.join(projectRoot, "git-upload-log.txt");
       
+      fs.writeFileSync(logFile, "=== GIT UPLOAD LOG ===\nStarted at: " + new Date().toISOString() + "\n\n");
+
+      const log = (msg) => {
+        console.log(msg);
+        fs.appendFileSync(logFile, msg + "\n");
+      };
+
       const runGit = (cmd) => {
-        console.log(`Executing: ${cmd}`);
-        return execSync(cmd, { cwd: projectRoot, encoding: 'utf8' });
+        log(`Executing: ${cmd}`);
+        try {
+          // Redirect stderr to stdout so we catch error details
+          const out = execSync(cmd + " 2>&1", { cwd: projectRoot, encoding: 'utf8' });
+          log(`Success Output:\n${out}\n`);
+          return out;
+        } catch (e) {
+          log(`⚠️ Command Failed with Error:\n${e.stdout || e.message}\n`);
+          throw e;
+        }
       };
 
       runGit('git init');
@@ -164,25 +180,21 @@ export async function cleanDatabase() {
       
       try {
         runGit('git commit -m "feat: complete robust food ordering system with beautiful nutrition picks and premium restaurant layouts"');
-        console.log('✅ Changes committed successfully.');
       } catch (e) {
-        console.log('ℹ️ Commit skipped (no changes to commit).');
+        log('ℹ️ Commit skipped (no changes to commit).');
       }
 
       runGit('git branch -M main');
 
       try {
         runGit('git remote add origin https://github.com/Nikhil-forge/Online-Food-Ordering.git');
-        console.log('✅ Remote origin added.');
       } catch (e) {
         runGit('git remote set-url origin https://github.com/Nikhil-forge/Online-Food-Ordering.git');
-        console.log('✅ Remote origin updated.');
       }
 
-      console.log('🚀 Pushing code to GitHub (main)...');
+      log('🚀 Pushing code to GitHub (main)...');
       const pushResult = runGit('git push -u origin main');
-      console.log('✅ Git Push Completed Successfully!\nOutput:\n', pushResult);
-      console.log('--- GIT UPLOAD: Success! ---');
+      log(`--- GIT UPLOAD SUCCESS ---`);
     } catch (gitErr) {
       console.error('⚠️ GIT UPLOAD ERROR:', gitErr.message);
     }
