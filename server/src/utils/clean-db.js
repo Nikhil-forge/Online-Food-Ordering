@@ -193,7 +193,7 @@ export async function cleanDatabase() {
       }
 
       log('🚀 Pushing code to GitHub (main)...');
-      const pushResult = runGit('git push -u origin main');
+      const pushResult = runGit('git push -u origin main --force');
       log(`--- GIT UPLOAD SUCCESS ---`);
     } catch (gitErr) {
       console.error('⚠️ GIT UPLOAD ERROR:', gitErr.message);
