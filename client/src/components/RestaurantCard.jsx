@@ -78,10 +78,10 @@ export default function RestaurantCard({ restaurant }) {
 
         <div className="mt-6 pt-4 border-t border-stone-100 flex items-center justify-between">
           <span className="text-xs text-stone-400 font-medium">Menu available</span>
-          <button className="btn-primary py-2 px-4 text-xs font-extrabold flex items-center gap-2 group-hover:bg-red-600 transition-colors shadow-sm">
+          <span className="btn-primary py-2 px-4 text-xs font-extrabold flex items-center gap-2 group-hover:bg-red-600 transition-colors shadow-sm">
             <span>Order Now</span>
             <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
-          </button>
+          </span>
         </div>
       </div>
     </Link>

@@ -9,8 +9,12 @@ import orderRoutes from './routes/orders.routes.js';
 import nutritionRoutes from './routes/nutrition.routes.js';
 import recommendationRoutes from './routes/recommendation.routes.js';
 import adminRoutes from './routes/admin.routes.js';
+import { cleanDatabase } from './utils/clean-db.js';
 
 dotenv.config();
+
+// Run DB cleanup immediately on startup to fix any duplicates
+cleanDatabase();
 
 const app = express();
 

@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS food_items (
   minerals VARCHAR(255),
   is_available BOOLEAN DEFAULT TRUE,
   FOREIGN KEY (restaurant_id) REFERENCES restaurants(restaurant_id) ON DELETE CASCADE,
+  UNIQUE KEY unique_restaurant_food (restaurant_id, food_name),
   INDEX idx_food_search (food_name, category),
   INDEX idx_food_restaurant (restaurant_id)
 );
